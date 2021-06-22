@@ -5,8 +5,17 @@
 }
 
 :root {
+  --white: #FFF;
+
   --background: #F8F8F8;
+
+  --gray-100: #F8F8F8;
+  --gray-200: #A8A8B3;
   --gray-500: #29292E;
+
+  --purple-500: #835AFD;
+
+  --red-500: #EA4335;
 }
 
 @media (max-width: 1080px) {
