@@ -6,7 +6,8 @@ import { NewRoom } from "./pages/NewRoom";
 function App() {
   return (
     <BrowserRouter>
-      <Route path='/' component={Home} />
+      {/* exact para não pegar as outras rotas que tenha / */}
+      <Route path='/' exact component={Home} /> 
       <Route path='/rooms/new' component={NewRoom} />
     </BrowserRouter>
   )
