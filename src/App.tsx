@@ -1,7 +1,9 @@
+import { Home } from "./pages/Home";
+
 function App() {
   return (
-    <h1>Oiii</h1>
-  );
+    <Home />
+  )
 }
 
 export default App;
