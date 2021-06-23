@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import { Home } from "./pages/Home";
@@ -13,7 +13,7 @@ type User = {
 
 type AuthContextType = {
   user: User | undefined
-  signInWithGoogle: () => void
+  signInWithGoogle: () => Promise<void>
 }
 
 export const AuthContext = createContext({} as AuthContextType) //passando o formato que sera a informação
@@ -21,10 +21,28 @@ export const AuthContext = createContext({} as AuthContextType) //passando o for
 function App() {
   const [user, setUser] = useState<User>()
 
-  function signInWithGoogle() {
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        const { displayName, photoURL, uid } = user 
+
+        if (!displayName || !photoURL) {
+          throw new Error('Missing information from Google Account.')
+        }
+
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL
+        })
+      }
+    })
+  }, [])
+
+  async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider() //autenticação com o google
 
-    auth.signInWithPopup(provider).then(result => {//quando o usuario fazz o login
+    const result = await auth.signInWithPopup(provider)//quando o usuario fazz o login
       if (result.user) { //se a autenticação deu certo
         const { displayName, photoURL, uid } = result.user //busca os dados
 
@@ -38,8 +56,7 @@ function App() {
           name: displayName,
           avatar: photoURL
         })
-      }
-    }) 
+      } 
   }
 
   return (
