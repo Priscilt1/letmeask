@@ -11,8 +11,8 @@ export function Home() {
   const { user, signInWithGoogle } = useAuth();
 
   async function handleCreateRoom() {
-    if (!user) {
-      await signInWithGoogle();
+    if (!user) { //se a pessoa nao tiver cadastrada
+      await signInWithGoogle(); //abre o popup do google
     }
     history.push("/rooms/new");
   }
