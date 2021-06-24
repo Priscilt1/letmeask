@@ -18,7 +18,8 @@
     margin-right: 0.5rem;
   }
 
-  &:not(:disabled):hover { //só aplica o efeito o hover se o bottao nao tiver desabilitado 
+  &:not(:disabled):hover {
+    //só aplica o efeito o hover se o bottao nao tiver desabilitado
     filter: brightness(0.9);
   }
 
