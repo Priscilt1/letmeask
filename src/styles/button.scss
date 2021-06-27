@@ -17,6 +17,12 @@
     margin-right: 0.5rem;
   }
 
+  &.outlined {
+    background: var(--white);
+    border: 1px solid var(--purple-500);
+    color: var(--purple-500);
+  }
+
   &:not(:disabled):hover {
     //só aplica o efeito o hover se o bottao nao tiver desabilitado
     filter: brightness(0.9);
