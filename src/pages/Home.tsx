@@ -35,6 +35,12 @@ export function Home() {
       return;
     }
 
+    //se a sala for encerrada
+    if (roomRef.val().endedAt) {
+      alert('Room already closed.')
+      return
+    }
+
     //se a sala existir vai ser direcionado para ela 
     history.push(`/rooms/${roomCode}`)
   }
