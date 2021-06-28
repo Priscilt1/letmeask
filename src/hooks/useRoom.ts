@@ -1,5 +1,7 @@
+//carregamento das perguntas
 import { useEffect, useState } from "react";
 import { database } from "../services/firebase";
+import { useAuth } from "./useAuth";
 
 type QuestionType = {
   id: string;
@@ -10,6 +12,8 @@ type QuestionType = {
   content: string;
   isAnswered: boolean;
   isHighlighted: boolean;
+  likeCount: number;
+  likeId: string | undefined;
 };
 
 type FirebaseQuestions = Record<
@@ -23,10 +27,14 @@ type FirebaseQuestions = Record<
     content: string;
     isAnswered: boolean;
     isHighlighted: boolean;
+    likes: Record<string, {
+      authorId: string;
+    }>
   }
 >;
 
 export function useRoom(roomId: string) {
+  const { user } = useAuth()
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [title, setTitle] = useState("");
 
@@ -48,6 +56,9 @@ export function useRoom(roomId: string) {
             author: value.author,
             isHighlighted: value.isHighlighted,
             isAnswered: value.isAnswered,
+            likeCount: Object.values(value.likes ?? {}).length, //quantidade de likes
+            //se o usuario deu like nessa questao ou não
+            likeId: Object.entries(value.likes ?? {}).find(([key, like ]) => like.authorId === user?.id)?.[0], //se encontrar o like vai pegar a posicao 0
           };
         }
       );
@@ -55,7 +66,11 @@ export function useRoom(roomId: string) {
       setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
     });
-  }, [roomId]);
+
+    return () => {
+      roomRef.off('value')
+    }
+  }, [roomId, user?.id]);
 
   return { questions, title }
 }

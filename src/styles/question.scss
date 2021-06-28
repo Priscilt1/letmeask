@@ -34,5 +34,32 @@
         margin-left: 0.5rem;
       }
     }
+
+    button {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      transition: filter 0.2s;
+
+      &.like-button {
+        display: flex;
+        align-items: flex-end;
+        color: var(--gray-300);
+        gap: 0.5rem;
+
+        &.liked {
+          color: var(--purple-500);
+
+          // entrando no svg e mudando a cor {
+          svg path {
+            stroke: var(--purple-500);
+          }
+        }
+      }
+
+      &:hover {
+        filter: brightness(0.2);
+      }
+    }
   }
 }
